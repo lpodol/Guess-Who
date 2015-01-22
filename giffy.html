@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <style>
+    img{
+      width: 100%;
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      z-index: -1;
+    }
+    </style>
+  <head>
+  <body>
+    <input type = "text" id = "input" placeholder = "Search by tag">
+    <button id = "button">submit</button>
+    <img id = "img">
+    <script>
+    var button = document.getElementById("button")
+
+    var newPhoto = function(index){
+
+      var input = document.getElementById("input");
+      var search_term = encodeURI(input.value);
+      var search_url = "http://api.giphy.com/v1/gifs/search?api_key=dc6zaTOxFJmzC&q=" + search_term;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", search_url);
+
+      xhr.addEventListener('load', function(e){
+      var d = xhr.responseText;
+      var parsed = JSON.parse(d);
+      var img_url = parsed.data[index]["images"]["original"]["url"];
+      var img = document.getElementById("img");
+      img.src = img_url;
+    });
+  xhr.send();
+};
+
+var index = 0
+
+button.addEventListener("click", function(){
+  newPhoto(index);
+  window.addEventListener("keydown", function(){
+    if (event.keyCode === 39){
+      var newindex = index++
+      newPhoto(newindex)
+    }else if (event.keyCode === 37){
+      var newindex = index--
+      newPhoto(newindex)
+    }
+  })
+})
+    </script>
+  </body>
+</html>
