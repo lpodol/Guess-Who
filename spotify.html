@@ -1,0 +1,44 @@
+<html>
+  <head>
+    <style>
+      img{
+        width: 100%;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        z-index: -1;
+      }
+    </style>
+    <head>
+  <body>
+    <h1>Gimme an artist name.</h1>
+    <input type = "text" id = "artist" placeholder= "Enter an artist.">
+    <button id = "button">submit</button>
+    <h2></h2>
+    <img id = "img">
+    <script>
+    var button = document.getElementById("button")
+
+    button.addEventListener("click", function(){
+      var input = document.getElementById("artist");
+      var input_value = input.value;
+      var replace = input_value.replace(" ", "+")
+      var searchURL = "https://api.spotify.com/v1/search?type=artist&q=artist:" + replace;
+      var xhr = new XMLHttpRequest();
+      xhr.open("GET", searchURL);
+
+      xhr.addEventListener('load', function(e){
+        var d = xhr.responseText;
+        var parsed = JSON.parse(d);
+        var img_url = parsed.artists.items[0].images[0].url;
+        var img = document.getElementById("img");
+        img.src = img_url;
+        var input = document.getElementById("artist");
+        var h2 = document.querySelector("h2");
+        h2.innerText = input.value.toUpperCase();
+      });
+      xhr.send();
+    });
+    </script>
+  </body>
+</html>
