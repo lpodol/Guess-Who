@@ -1,7 +1,7 @@
 var express = require('express');
 var app = express();
 
-app.get('/Rick_Moranis', function(req,res){
+app.get('/Rick%20Moranis', function(req,res){
   res.send({correct: "You got it! You are the Gatekeeper to my Keymaster."})
 });
 
